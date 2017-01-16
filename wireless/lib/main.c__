@@ -1,0 +1,126 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <assert.h>
+#include <signal.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <pthread.h>
+#include <sys/ioctl.h>
+
+#include "lib_general.h"
+#include "lib_wireless.h"
+
+
+
+
+
+
+
+#define SERV_IP     		"127.0.0.1"
+#define SERV_PORT		(63000)
+
+
+static lib_wl_t *g_wl = NULL;
+
+int main(int argc, char *argv[])
+{
+	
+	//g_wl = lib_wl_tcp_new(SERV_IP, SERV_PORT);
+
+	int retval;
+	
+	g_wl = lib_wl_new();
+	lib_wl_set_model(g_wl, WL_NETWORK_MODEL_WIRELESS, 200);
+
+	while(1)
+	{
+			//g_wl = lib_wl_new();
+
+			//g_wl = lib_wl_tcp_new(SERV_IP, SERV_PORT);
+			//if(g_wl == NULL)
+			{
+				//fprintf(stderr, "-------------------!!!!!\n");
+				//return;
+			}
+			
+		lib_wl_set_model(g_wl, WL_NETWORK_MODEL_WIRELESS, 200);
+	
+	#if 1
+	lib_wl_csq_t csq;
+	lib_wl_csq_get(g_wl, &csq, 1000);
+	
+	fprintf(stderr, "rssi:%d\n", csq.rssi);
+	fprintf(stderr, "fer:%d\n", csq.fer);
+
+	
+	//lib_sleep(1);
+
+	lib_wl_sysinfo_t info;
+	memset(&info, 0, sizeof(lib_wl_sysinfo_t));
+	
+	lib_wl_sysinfo_get(g_wl, &info, 1000);
+
+	fprintf(stderr, "srv_status:%d\n", info.srv_status);
+	fprintf(stderr, "srv_domain:%d\n", info.srv_domain);
+	fprintf(stderr, "roam_status:%d\n", info.roam_status);
+	fprintf(stderr, "sys_mode:%d\n", info.sys_mode);
+	fprintf(stderr, "sim_state:%d\n", info.sim_state);
+
+	lib_wl_cgmr_t cgmr;
+	lib_wl_cgmr_get(g_wl, &cgmr, 1000);
+	fprintf(stderr, "%s\n", cgmr.softversion);
+
+	lib_wl_hwver_t hwver;
+	lib_wl_hwver_get(g_wl, &hwver, 1000);
+	fprintf(stderr, "%s\n", hwver.firmversion);
+
+
+
+
+	enum WL_SIGNAL_LEVEL level = lib_wl_signal_level_get(g_wl, 1000);
+	fprintf(stderr, "level=%d\n", level);
+
+
+	lib_wl_pppd_info_t pppd;
+	memset(&pppd, 0, sizeof(lib_wl_pppd_info_t));
+	lib_wl_pppd_info_get(g_wl, &pppd, 1000);
+	
+	fprintf(stderr, "using_channel: %d\n", pppd.using_channel);
+	fprintf(stderr, "using_interface: %s\n", pppd.using_interface);
+	fprintf(stderr, "local_ip_address: %s\n", pppd.local_ip_address);
+	fprintf(stderr, "remote_ip_address: %s\n", pppd.remote_ip_address);
+	fprintf(stderr, "primary_dns_address: %s\n", pppd.primary_dns_address);
+	fprintf(stderr, "using_channel: %s\n", pppd.secondary_dns_address);
+#endif
+
+	
+#if 1
+		wl_zgpsr_t zgpsr;
+		retval = lib_wl_get_gps_zgpsr(g_wl, &zgpsr, 1000);
+		fprintf(stderr, "lib_wl_get_gps_zgpsr retval: %d\n", retval);
+
+		//lib_sleep(1);
+
+		wl_gps_info_t gps_info;
+		retval = lib_wl_get_gps_info(g_wl, &gps_info, 1000);
+		fprintf(stderr, "lib_wl_get_gps_zgpsr retval: %d\n", retval);
+
+	#endif	
+		
+		lib_sleep(1);
+
+	//	lib_wl_destroy(g_wl);
+
+		//lib_wl_tcp_destroy(g_wl);
+	}
+	
+	lib_wl_destroy(g_wl);
+
+
+	return 0;
+}
+
+
