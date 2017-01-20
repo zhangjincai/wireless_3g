@@ -28,7 +28,7 @@ $(BINS): $(OBJS)
 	@$(CC) -o $@	$^ $(LDFLAGS)
 
 #copy wireless to firmware dir
-	cp wireless /mysoftware/BicycleProjectForEngineer_161103/firmware/ -r
+	cp wireless /mysoftware/release_bicycle/BicycleProjectForEngineer_161103/firmware/ -r
 
 clean:
 	@rm -f $(BINS) $(OBJS)

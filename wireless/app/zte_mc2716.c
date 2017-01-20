@@ -58,7 +58,7 @@
 #define ZTE_CSQ				"AT+CSQ\r"			//信号强度查询
 #define ZTE_ZPS				"AT+ZPS?\r"			//查询当前是否在上网
 
-#define ZTE_PREFMODE_SET 		"AT^PREFMODE=8\r"   //强制设置优先网络模式为CDMA/HDR HYBRID 模式
+#define ZTE_PREFMODE_SET 		"AT^PREFMODE=2\r"   //2:CDMA, 8:强制设置优先网络模式为CDMA/HDR HYBRID 模式
 #define ZTE_PREFMODE_GET 		"AT^PREFMODE?\r"
 
 
